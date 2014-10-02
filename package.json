@@ -1,0 +1,19 @@
+{
+  "name": "rasp",
+  "version": "0.0.0",
+  "description": "Scraper framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:adamvr/rasp"
+  },
+  "author": "Adam Rudd",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adamvr/rasp/issues"
+  },
+  "homepage": "https://github.com/adamvr/rasp"
+}
