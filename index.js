@@ -4,6 +4,7 @@
 var request = require('superagent')
   , fs = require('fs')
   , cheerio = require('cheerio')
+  , q = require('q')
   , _ = require('underscore');
 
 /**
@@ -23,10 +24,17 @@ Rasp.prototype.sense = function (sensor) {
 };
 
 Rasp.prototype.scrape = function (src, content, cb) {
+  var deferred = q.defer();
+
   this._fetch(src, function (err, text) {
-    if (err) return cb(err);
-    return this._run(text, content, cb);
+    if (err) return deferred.reject(err);
+    return this._run(text, content, function (err, res) {
+      if (err) return deferred.reject(err);
+      return deferred.resolve(res);
+    });
   }.bind(this));
+
+  return deferred.promise.nodeify(cb);
 };
 
 Rasp.prototype._fetch = function (src, cb) {
