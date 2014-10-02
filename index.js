@@ -15,6 +15,8 @@ var Rasp = module.exports = function Rasp (opts) {
   opts = opts || {};
 };
 
+Rasp.prototype._sensors = [];
+
 Rasp.prototype.sense = function (sensor) {
   sensor = _.isArray(sensor) ? sensor : _.toArray(arguments);
   return this._sensors = this._sensors.concat(sensor), this;
