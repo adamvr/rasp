@@ -23,7 +23,7 @@ Rasp.prototype.sense = function (sensor) {
 };
 
 Rasp.prototype.scrape = function (src, content, cb) {
-  this._fetch(src, function (err, test) {
+  this._fetch(src, function (err, text) {
     if (err) return cb(err);
     return this._run(text, cb);
   }.bind(this));
