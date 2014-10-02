@@ -25,7 +25,7 @@ Rasp.prototype.sense = function (sensor) {
 Rasp.prototype.scrape = function (src, content, cb) {
   this._fetch(src, function (err, text) {
     if (err) return cb(err);
-    return this._run(text, cb);
+    return this._run(text, content, cb);
   }.bind(this));
 };
 
@@ -45,12 +45,11 @@ Rasp.prototype._fetch = function (src, cb) {
   return this;
 };
 
-Rasp.prototype._run = function (text, cb) {
+Rasp.prototype._run = function (text, selector, cb) {
   var index = 0
     , done = false
     , result = {}
     , sensors = this._sensors
-    , selector = this._content
     , res = {}
     , error;
 
