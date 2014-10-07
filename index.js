@@ -5,6 +5,7 @@ var request = require('superagent')
   , fs = require('fs')
   , cheerio = require('cheerio')
   , q = require('q')
+  , debug = require('debug')('rasp')
   , _ = require('underscore');
 
 /**
@@ -20,11 +21,14 @@ Rasp.prototype._sensors = [];
 
 Rasp.prototype.sense = function (sensor) {
   sensor = _.isArray(sensor) ? sensor : _.toArray(arguments);
+  debug('adding sensors %s', sensor);
   return this._sensors = this._sensors.concat(sensor), this;
 };
 
 Rasp.prototype.scrape = function (src, content, cb) {
   var deferred = q.defer();
+
+  debug('scraping %s with content selector %s', src, content);
 
   this._fetch(src, function (err, text) {
     if (err) return deferred.reject(err);
@@ -39,14 +43,17 @@ Rasp.prototype.scrape = function (src, content, cb) {
 
 Rasp.prototype._fetch = function (src, cb) {
   if (/http/.test(src)) {
+    debug('fetching %s over http', src);
     request
       .get(src)
       .end(function (err, res) {
         return cb(err, res.text)
       });
   } else if (fs.existsSync(src)) {
+    debug('fetching %s from filesystem', src);
     fs.readFile(src, 'utf8', cb);
   } else {
+    debug('fetching in string mode');
     cb(null, src);
   }
 
