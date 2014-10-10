@@ -1,6 +1,6 @@
 {
   "name": "rasp",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Scraper framework",
   "main": "index.js",
   "scripts": {
