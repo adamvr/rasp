@@ -42,7 +42,7 @@ Rasp.prototype.scrape = function (src, content, cb) {
 };
 
 Rasp.prototype._fetch = function (src, cb) {
-  if (/http/.test(src)) {
+  if (/^http/.test(src)) {
     debug('fetching %s over http', src);
     request
       .get(src)
