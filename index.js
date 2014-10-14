@@ -25,14 +25,14 @@ Rasp.prototype.sense = function (sensor) {
   return this._sensors = this._sensors.concat(sensor), this;
 };
 
-Rasp.prototype.scrape = function (src, content, cb) {
+Rasp.prototype.scrape = function (src, opts, cb) {
   var deferred = q.defer();
 
-  debug('scraping %s with content selector %s', src, content);
+  debug('scraping %s with options %j', src, opts);
 
   this._fetch(src, function (err, text) {
     if (err) return deferred.reject(err);
-    return this._run(text, content, function (err, res) {
+    return this._run(text, opts, function (err, res) {
       if (err) return deferred.reject(err);
       return deferred.resolve(res);
     });
@@ -60,7 +60,7 @@ Rasp.prototype._fetch = function (src, cb) {
   return this;
 };
 
-Rasp.prototype._run = function (text, selector, cb) {
+Rasp.prototype._run = function (text, opts, cb) {
   var index = 0
     , done = false
     , result = {}
@@ -72,7 +72,7 @@ Rasp.prototype._run = function (text, selector, cb) {
   var $ = cheerio.load(text);
 
   // Build doc object
-  var doc = { text: text, $: $, content: selector };
+  var doc = { text: text, $: $, opts: opts, content: opts.content };
 
   // Build result object
   var res = {};
